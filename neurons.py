@@ -71,18 +71,23 @@ print(layer2.output)
 
 
 ## Activation function
+import nnfs
+from nnfs.datasets import spiral_data
 
+X,y = spiral_data(samples=100, classes=3)
 
 
 class Activation_ReLu:
     def foward(self, inputs):
-        self.output = np.maximum(1, inputs)    
+        self.output = np.maximum(0, inputs)    
 
 layer3 = Layer_dense(2,5)
 activation1 = Activation_ReLu()
 
+print(layer3.output) # Before the activation function the output has negatives
+
 layer3.foward(X)
 activation1.foward(layer3.output)
-print(activation1.output)
+print(activation1.output)  # After Rectified Linear activation function ReLU the negatives are reduced to zero
 
 
