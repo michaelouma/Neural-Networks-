@@ -90,4 +90,46 @@ layer3.foward(X)
 activation1.foward(layer3.output)
 print(activation1.output)  # After Rectified Linear activation function ReLU the negatives are reduced to zero
 
+## Another activation function
+
+## Softmax is the combination of the exponatiation and normalization
+
+# Exponential Function will make good use of any negatives output ruther than just making them to be zero
+
+import math
+
+layer_output = [4.5,1.21,2.34]
+
+
+# Euler's number
+E = math.e
+exp_values =[]
+
+for output in layer_output:
+    exp_values.append(E**output)
+
+print(exp_values)
+
+
+## Now we normalize the exp_values to get probabilities
+
+norm_base = sum(exp_values)
+norm_values = []
+
+for values in exp_values:
+    norm_values.append(values/norm_base)
+
+print(norm_values)
+print(sum(norm_values))
+
+
+## Anothe way using the numpy 
+
+exp_values1 = np.exp(layer_output)
+
+norm_values1 = exp_values1/np.sum(exp_values1)
+
+print(norm_values1)
+print(sum(norm_values1))
+
 
