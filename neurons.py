@@ -98,11 +98,13 @@ print(activation1.output)  # After Rectified Linear activation function ReLU the
 
 import math
 
-layer_output = [4.5,1.21,2.34]
+layer_output = [[4.5,1.21,2.34],
+                [8.9, -1.81, 0.2],
+                [1.41, 1.051, 0.026]]
 
 
 # Euler's number
-E = math.e
+# E = math.e
 exp_values =[]
 
 for output in layer_output:
@@ -127,9 +129,32 @@ print(sum(norm_values))
 
 exp_values1 = np.exp(layer_output)
 
-norm_values1 = exp_values1/np.sum(exp_values1)
+norm_values1 = exp_values1/np.sum(exp_values1, axis=1, keepdims= True)
 
 print(norm_values1)
 print(sum(norm_values1))
 
 
+# Overflowing Error due to exponential 
+## One way to tackle the overflow is to take all the value and subtract the largest value that is (v = u - max (u))
+
+
+class Activation_softmax:
+    def foward(self, inputs):
+        exp_values = np.exp(inputs - np.max(inputs, axis = 1, keepdims= True))
+        probabilities = exp_values/ np.sum(exp_values,axis =1, keepdims = True)
+        self.output = probabilities
+
+layer4 = Layer_dense(2,3)
+activation2 = Activation_ReLu()
+
+layer5 = Layer_dense(3,3)
+activation3 = Activation_softmax()
+
+layer4.foward(X)
+activation2.foward(layer4.output)
+
+layer5.foward(activation2.output)
+activation3.foward(layer5.output)
+
+print(activation3.output[:5])
